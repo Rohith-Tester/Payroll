@@ -1,0 +1,205 @@
+/* Print-ready A4 documents */
+:root {
+    --doc-ink: #111827;
+    --doc-muted: #4b5563;
+    --doc-border: #e5e7eb;
+    --doc-accent: #1d4ed8;
+    --doc-serif: "Georgia", "Times New Roman", serif;
+    --doc-sans: "DM Sans", system-ui, sans-serif;
+}
+
+.doc-print-body {
+    margin: 0;
+    background: #f3f4f6;
+    color: var(--doc-ink);
+    font-family: var(--doc-sans);
+}
+
+.doc-print-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    border-bottom: 1px solid var(--doc-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.doc-print-back {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--doc-accent);
+    text-decoration: none;
+}
+
+.doc-print-back:hover {
+    text-decoration: underline;
+}
+
+.doc-print-btn {
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    background: var(--doc-accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.doc-print-btn:hover {
+    filter: brightness(1.05);
+}
+
+.doc-flash {
+    margin: 0 1rem 0.5rem;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+}
+
+.doc-page {
+    max-width: 210mm;
+    min-height: 260mm;
+    margin: 1rem auto 2rem;
+    padding: 18mm 20mm 22mm;
+    background: #fff;
+    border: 1px solid var(--doc-border);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.doc-letterhead {
+    border-bottom: 2px solid var(--doc-accent);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.doc-letterhead__logo {
+    height: 80px;
+    width:80px;
+    margin-bottom: 0.5rem;
+}
+
+.doc-letterhead__name {
+    margin: 0;
+    font-family: var(--doc-serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.doc-letterhead__meta {
+    margin: 0.35rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--doc-muted);
+    line-height: 1.5;
+}
+
+.doc-title {
+    margin: 0 0 1.25rem;
+    font-family: var(--doc-serif);
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.doc-body {
+    font-family: var(--doc-serif);
+    font-size: 11.5pt;
+    line-height: 1.65;
+}
+
+.doc-body p {
+    margin: 0 0 0.85rem;
+}
+
+.doc-meta {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.doc-signature {
+    margin-top: 2.5rem;
+}
+
+.doc-signature__line {
+    margin: 2.5rem 0 0.35rem;
+    border-top: 1px solid var(--doc-ink);
+    width: 220px;
+}
+
+.doc-signature__name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.doc-signature__role {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--doc-muted);
+}
+
+.doc-slip-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+}
+
+.doc-slip-table th,
+.doc-slip-table td {
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--doc-border);
+    text-align: left;
+}
+
+.doc-slip-table th {
+    background: #f9fafb;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--doc-muted);
+}
+
+.doc-slip-total {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 0.75rem;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .doc-print-body {
+        background: #fff;
+    }
+
+    .doc-page {
+        margin: 0;
+        padding: 12mm 16mm;
+        border: none;
+        box-shadow: none;
+        max-width: none;
+        min-height: auto;
+    }
+
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+}

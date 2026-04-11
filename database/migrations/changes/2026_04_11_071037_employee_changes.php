@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role_permission' , function(Blueprint $table){
-            $table->id('id');
-            $table->bigInteger('role_id')->unsigned();
-            $table->bigInteger('permission_id')->unsigned();
+        Schema::table('employee' , function(Blueprint $table) {
+            $table->string('phone')->change();
         });
     }
 
