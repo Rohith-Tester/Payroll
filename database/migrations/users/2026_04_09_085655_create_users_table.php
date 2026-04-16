@@ -22,8 +22,6 @@ return new class extends Migration
             $table->boolean('admin_flag')->default(false);
             $table->boolean('owner_flag')->default(false);
             $table->bigInteger('role_id')->unsigned();
-            // foregin key constrain for role 
-            $table->foreign('role_id')->references('role_id')->on('roles');
             $table->boolean('email_verified');
             $table->string('password_reset_code');
             $table->timestamp('password_reset_expires');

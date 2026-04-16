@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            // foreign key constraint
-            $table->foreign('user_id')->references('user_id')->on('users');
             $table->string('action');
             $table->string('table_name');
             $table->string('old_value');

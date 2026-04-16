@@ -17,10 +17,6 @@ return new class extends Migration
             $table->id('id');
             $table->bigInteger('role_id')->unsigned();
             $table->bigInteger('permission_id')->unsigned();
-            // foreign key reference
-            $table->foreign('role_id')->references('role_id')->on('roles');
-            $table->foreign('permission_id')->references('permission_id')->on('permissions');
-
         });
     }
 
