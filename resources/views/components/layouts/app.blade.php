@@ -18,19 +18,7 @@
 </head>
 <body class="app-body">
     <div class="app-layout">
-        <aside class="app-sidebar">
-            <div class="app-sidebar__brand">{{ config('app.name', 'Payroll') }}</div>
-            @include('partials.app-nav')
-            <div class="app-sidebar__foot">
-                @auth
-                    <div class="app-sidebar__user">{{ auth()->user()->user_name ?? auth()->user()->email }}</div>
-                @endauth
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="app-logout" style="width: 100%; justify-content: center;">Sign out</button>
-                </form>
-            </div>
-        </aside>
+        @include('partials.app-nav')
         <div class="app-content-wrap">
             <header class="app-topbar">
                 <h1 class="app-topbar__title">{{ $title }}</h1>
