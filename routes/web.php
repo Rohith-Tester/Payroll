@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return auth()->check()
-        ? redirect()->route('dashboard')
+        ? redirect()->route('employees.index')
         : redirect()->route('login');
 });
 
@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     // allowance routes
     Route::prefix('allowance')->name('allowance.')->group(function(){
         Route::post('/edit' , [AllowanceController::class , 'edit'])->name('edit');
+        Route::get('/index' ,[AllowanceController::class , 'index'])->name('index');
     });
 
     Route::get('/home', function () {
