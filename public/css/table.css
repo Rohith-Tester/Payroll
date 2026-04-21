@@ -47,3 +47,100 @@
 .data-table .cell-muted {
     color: var(--muted);
 }
+
+/* Table Styling */
+/* ===== Asset Page Style Table ===== */
+
+.table-panel{
+    background:#fff;
+    padding:0;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+}
+
+/* wrapper */
+.data-table-wrap{
+    width:100%;
+    overflow-x:auto;
+    margin-top:10px;
+    border:1px solid #cfcfcf;
+}
+
+/* table */
+.data-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    color:#222;
+    background:#fff;
+}
+
+/* heading */
+.data-table thead th{
+    background:#efefef;
+    color:#111;
+    font-weight:600;
+    padding:10px 8px;
+    border:1px solid #cfcfcf;
+    text-align:left;
+    white-space:nowrap;
+}
+
+/* body */
+.data-table tbody td{
+    padding:8px;
+    border:1px solid #d7d7d7;
+    white-space:nowrap;
+}
+
+/* hover */
+.data-table tbody tr:hover{
+    background:#f7f7f7;
+}
+
+/* links */
+.data-table a{
+    color:#0066cc;
+    text-decoration:none;
+}
+
+.data-table a:hover{
+    text-decoration:underline;
+}
+
+/* empty row */
+.empty-state{
+    text-align:center;
+    padding:30px !important;
+    color:#777;
+    font-size:14px;
+}
+
+/* buttons */
+.doc-btn{
+    background:#2f74d0;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:4px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.doc-btn:hover{
+    background:#1f5fb7;
+    color:#fff;
+}
+
+/* page top */
+.doc-page-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+/* muted */
+.cell-muted{
+    color:#444;
+}

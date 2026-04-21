@@ -308,8 +308,6 @@ code {
 
 .app-content-wrap {
     width: 100%;
-    margin-left: 0;
-    padding-left: 0;
     height: 92%;
 }
 .app-content-wrap {
@@ -318,6 +316,8 @@ code {
 
 .app-main {
     height: inherit;
+    margin: 0;
+    padding: 0;
 }
 
 .app-nav {
