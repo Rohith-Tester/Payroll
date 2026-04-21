@@ -203,3 +203,22 @@
     border: 1px solid rgba(52, 211, 153, 0.35);
     color: #a7f3d0;
 }
+
+/* Experience Letter Options Styles */
+/* icon size */
+
+.icon-open,
+.icon-delete{
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* hover */
+
+.icon-open:hover{
+    color:#0d6efd !important;
+}
+
+.icon-delete:hover{
+    color:red !important;
+}

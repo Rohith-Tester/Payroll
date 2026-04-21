@@ -42,8 +42,6 @@
                 ]
             ],
         ],
-
-
     ];
 @endphp
 <nav class="app-nav" aria-label="Main">
