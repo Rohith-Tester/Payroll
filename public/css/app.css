@@ -326,3 +326,15 @@ code {
 .app-panel .doc-form label {
     color: black;
 }
+
+/* Back Button Colour Change And Added Hovering */
+.doc-btn{
+    background:#0d6efd !important;
+    color:#fff !important;
+    border-color:#0d6efd !important;
+}
+.doc-btn:hover{
+    background:#0b5ed7 !important;
+    border-color:#0a58ca !important;
+    color:#fff !important;
+}
