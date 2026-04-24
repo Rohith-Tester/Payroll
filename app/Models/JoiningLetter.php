@@ -12,6 +12,7 @@ class JoiningLetter extends Model
     protected $fillable = [
         'employee_id',
         'joining_date',
+        'salary',
         'file_path',
         'issued_date',
     ];

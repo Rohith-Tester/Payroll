@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
+use App\Models\JoiningLetter;
 use App\Models\OfferLetter;
 use App\Models\SalaryStructure;
 use Illuminate\Http\RedirectResponse;
@@ -32,7 +33,13 @@ class EmployeeController extends Controller
             ;
             $offerLetterLink = $letters
                 ? '<a href="' . route('documents.offer-letters.preview', $letters->id) . '">Offer Letter</a>'
-                : 'No Offer Letter';
+                : '<a href="' . route('documents.offer-letters.store' , $employee->id) . '">Offer Letter</a>';
+            
+            $joining_letter = JoiningLetter::query()->where('employee_id' , $employee->id)->first();
+            
+            $joining_letter_link = $joining_letter ? '<a href="' .route('documents.joining-letters.preview' , $joining_letter) . '">Confirmation Letter</a>' : '<a href="' . route('documents.joining-letters.store' , $employee->id) . '">Confirmation Letter</a>' ;
+            
+            
             return [
                 $employee->employee_code,
                 $employee->full_name,
@@ -42,8 +49,23 @@ class EmployeeController extends Controller
                 $employee?->salary?->ctc,
                 $employee?->salary?->variable,
                 $employee?->status,
-                '<a href="' . route('employees.edit', $employee->id) . '"><i class="fa fa-edit"></i></a>
-                '.$offerLetterLink
+                '<div class="dropdown">
+                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Actions
+                     </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="' . route('employees.edit', $employee->id) . '"><i class="fa fa-edit"></i> Edit
+                            </a>
+                        </li>
+                        <li>
+                            ' . $offerLetterLink . '
+                        </li>
+                        <li>
+                            '.$joining_letter_link.'
+                        </li>
+                    </ul>
+                </div>'
             ];
         });
 

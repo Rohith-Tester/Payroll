@@ -6,11 +6,6 @@
     font-weight: 800 !important;
 }
 
-#employee_table {
-    margin-top: 2% !important;
-    border-top: 0px !important;
-    border-bottom: 0px !important;
-}
 
 .table-panel {
     font: 12px verdana;
@@ -37,6 +32,7 @@ table.dataTable thead th,
 table.dataTable thead td {
     padding: 10px 18px;
     border-bottom: 1px solid #111;
+    font-size: 12px;
 }
 
 .table-panel .table-bordered > :not(caption) > * > * {
@@ -60,13 +56,7 @@ table.dataTable thead td {
     margin-top: 1% !important;
 }
 
-.table-footer-search {
-    background: #f8f9fa;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 .fa-icon {
     color: #212529;
     text-decoration: none;

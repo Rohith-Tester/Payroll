@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Department ;
 use App\Models\Designation;
+use App\Models\Salary;
 use App\Models\settings\Allowance ;
 
 class OfferLetterController extends Controller
@@ -43,36 +44,16 @@ class OfferLetterController extends Controller
         return view('documents.offer-letters.create', compact('employees' , 'designations' , 'allowance_mapings'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store($employee_id): RedirectResponse
     {
-        $data = $request->validate([
-            'employee_id' => ['required', 'exists:employee,id'],
-            'offered_salary' => ['nullable', 'numeric', 'min:0'],
-            'issued_date' => ['required', 'date'],
-            'compensation_line' => ['nullable', 'string', 'max:500'],
-            'conveyance' => ['nullable', 'numeric', 'min:0'],
-            'vehicle_maintenance' => ['nullable', 'numeric', 'min:0'],
-            'production_incentive' => ['nullable', 'numeric', 'min:0'],
-            'pf_esi' => ['nullable', 'numeric', 'min:0'],
-            'signatory_name' => ['nullable', 'string', 'max:120'],
-        ]);
+        $salary = Employee::find($employee_id)->with(['salary'])->first();
 
-      
         $letter = OfferLetter::query()->create([
-            'employee_id' => $data['employee_id'],
-            'offered_salary' => $data['offered_salary'] ?? null,
+            'employee_id' => $employee_id,
+            'offered_salary' => $salary?->salary?->ctc ,
             'file_path' => '',
-            'issued_date' => $data['issued_date'],
+            'issued_date' => date('Y-m-d'),
             'accepted' => false,
-        ]);
-
-        $request->session()->put(self::SESSION_PREFIX.$letter->id, [
-            'compensation_line' => $data['compensation_line'] ?? null,
-            'conveyance' => $data['conveyance'] ?? null,
-            'vehicle_maintenance' => $data['vehicle_maintenance'] ?? null,
-            'production_incentive' => $data['production_incentive'] ?? null,
-            'pf_esi' => $data['pf_esi'] ?? null,
-            'signatory_name' => $data['signatory_name'] ?? null,
         ]);
 
         return redirect()
@@ -82,6 +63,7 @@ class OfferLetterController extends Controller
 
     public function preview(OfferLetter $offerLetter): View
     {
+       
         $allowance = Allowance::all()->toArray() ;
 
         $allowance_mapings = [] ; 
@@ -91,9 +73,9 @@ class OfferLetterController extends Controller
         } 
    
 
-        $offerLetter->load(['employee.department', 'employee.designation', 'employee.latestSalaryStructure']);
+        $offerLetter->load(['employee.department', 'employee.designation' , 'employee.salary']);
         $employee = $offerLetter->employee;
-        $ctc = $employee?->latestSalaryStructure?->ctc ;
+        $ctc = $employee->salary->ctc ;
 
         $conveyance_string = str_replace('ctc' , $ctc , $allowance_mapings['conveyance'] ); 
         $conveyance = eval("return $conveyance_string;");
@@ -148,7 +130,5 @@ class OfferLetterController extends Controller
         return back();
     }
 
-    public function custom($id){
-        dd($id);
-    }
+
 }

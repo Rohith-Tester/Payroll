@@ -1,7 +1,7 @@
 @php
     $role = $roleTitle ?? $employee?->designation?->title;
 @endphp
-<x-layouts.document-print pageTitle="Offer letter" :backUrl="route('documents.offer-letters.index')">
+<x-layouts.document-print pageTitle="Offer letter" :backUrl="route('employees.index')">
     @include('documents.partials.letterhead', ['company' => $company, 'title' => 'Offer Letter'])
 
     <div class="doc-body">

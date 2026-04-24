@@ -58,14 +58,14 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/offer-letters', [OfferLetterController::class, 'index'])->name('offer-letters.index');
         Route::get('/offer-letters/create', [OfferLetterController::class, 'create'])->name('offer-letters.create');
-        Route::post('/offer-letters', [OfferLetterController::class, 'store'])->name('offer-letters.store');
+        Route::get('/offer-letters/{id}/store', [OfferLetterController::class, 'store'])->name('offer-letters.store');
         Route::get('/offer-letters/{offerLetter}/preview', [OfferLetterController::class, 'preview'])->name('offer-letters.preview');
         Route::get('/offer-letters/{id}/deleter', [OfferLetterController::class, 'delete'])->name('offer-letters.delete');
         Route::get('/offer-letter/{id}/custom' , [OfferLetterController::class , 'custom'])->name('offer-letter.custom');
 
         Route::get('/appointment-letters', [JoiningLetterController::class, 'index'])->name('joining-letters.index');
         Route::get('/appointment-letters/create', [JoiningLetterController::class, 'create'])->name('joining-letters.create');
-        Route::post('/appointment-letters', [JoiningLetterController::class, 'store'])->name('joining-letters.store');
+        Route::get('/appointment-letters/{id}/store', [JoiningLetterController::class, 'store'])->name('joining-letters.store');
         Route::get('/appointment-letters/{joiningLetter}/preview', [JoiningLetterController::class, 'preview'])->name('joining-letters.preview');
 
         Route::get('/experience-letters', [ExperienceLetterController::class, 'index'])->name('experience-letters.index');

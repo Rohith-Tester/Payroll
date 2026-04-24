@@ -18,7 +18,10 @@
             dom: '<"top"iBp<"dt_title">>t<"bottom"><"clear">',
             serverSide: true,
             processing: true,
+            scroller : true , 
+            scrollY: '76vh',
             ajax: '{{ route($ajax) }}',
+            autoWidth : false ,
             initComplete: function () {
                 document.querySelector('.dt_title').textContent = '{{ $pagetitle }}';
                 var api = this.api();

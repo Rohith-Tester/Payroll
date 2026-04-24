@@ -1,6 +1,6 @@
 <x-layouts.document-print-single-page
     pageTitle="Appointment letter"
-    :backUrl="route('documents.joining-letters.index')"
+    :backUrl="route('employees.index')"
 >
     @include('documents.partials.letterhead', ['company' => $company , 'title' => 'Appointment Letter'])
 

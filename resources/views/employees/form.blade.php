@@ -5,15 +5,16 @@
 @endphp
 
 <x-layouts.app :title="$title">
-    <section class="app-panel">
+    <div class=" d-flex justify-content-between mt-4 ms-3 me-3">
+        <h3 class="doc-form-section-title">Employee details</h3>
+        <a class="doc-btn doc-btn--ghost" href="{{ route('employees.index') }}">Back</a>
+    </div>
+    <section class="app-panel  ms-3 ">
         <form class="doc-form doc-form--wide" method="POST" action="{{ $action }}">
             @csrf
             @if ($isEdit)
                 @method('PUT')
             @endif
-
-            <h3 class="doc-form-section-title">Employee details</h3>
-
             <div class="doc-form-grid">
                 <div>
                     <label for="employee_code">Employee code <span class="doc-req">*</span></label>
@@ -96,9 +97,12 @@
                     <label for="status">Status</label>
                     <select name="status" id="status">
                         <option value="null">—</option>
-                        <option value="Confirmed" {{ old('status' , $employee->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
-                        <option value="Probation" {{ old('status' , $employee->status) == 'Probation' ? 'selected' : '' }}>Probation</option>
-                        <option value="Resigned" {{ old('status' , $employee->status) == 'Resigned' ? 'selected' : '' }}>Resigned</option>
+                        <option value="Confirmed" {{ old('status', $employee->status) == 'Confirmed' ? 'selected' : '' }}>
+                            Confirmed</option>
+                        <option value="Probation" {{ old('status', $employee->status) == 'Probation' ? 'selected' : '' }}>
+                            Probation</option>
+                        <option value="Resigned" {{ old('status', $employee->status) == 'Resigned' ? 'selected' : '' }}>
+                            Resigned</option>
                     </select>
                     @error('status')
                         <p class="doc-form-error">{{ $message }}</p>

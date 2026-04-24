@@ -32,18 +32,15 @@ class JoiningLetterController extends Controller
         return view('documents.joining-letters.create', compact('employees'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store($id): RedirectResponse
     {
-        $data = $request->validate([
-            'employee_id' => ['required', 'exists:employee,id'],
-            'joining_date' => ['required', 'date'],
-            'issued_date' => ['nullable', 'date'],
-        ]);
-
+        
+        $employee = Employee::find($id)->first();
         $letter = JoiningLetter::query()->create([
-            'employee_id' => $data['employee_id'],
-            'joining_date' => $data['joining_date'],
-            'issued_date' => $data['issued_date'] ?? now(),
+            'employee_id' => $employee->id,
+            'joining_date' => $employee->joining_date,
+            'issued_date' => date('Y-m-d'),
+            'salary' => $employee?->salary?->ctc ,
             'file_path' => '',
         ]);
 
