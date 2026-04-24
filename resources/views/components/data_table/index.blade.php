@@ -1,5 +1,5 @@
 @props(['headers' => null, 'id' => null, 'pagetitle' => null, 'ajax'])
-<table class="table table-striped table-bordered table-hover m-0" id="{{ $id }}">
+<table class="table table-striped table-bordered table-hover m-0 datatable-v1" id="{{ $id }}">
     <thead>
         @foreach ($headers as $head)
             <th>{{ $head }}</th>
@@ -14,14 +14,51 @@
 </table>
 @push('external_scripts')
     <script>
+        let table_header = '{{  $pagetitle }}';
+        function adjustTableHeight() {
+            let windowHeight = $(window).height();
+            let headerHeight = $(".app-nav").outerHeight(true) + 40;
+            let footerHeight = $(".footer").outerHeight(true) || 35;
+            let tableFooterHeight = $(".dataTables_scrollFoot").outerHeight(true) || 50;
+            let availableHeight =
+                windowHeight - (headerHeight + footerHeight + tableFooterHeight + 40);
+            var rowHeight = 40;
+            let pageLength = Math.floor(availableHeight / rowHeight);
+            localStorage.setItem(table_header + "_length", pageLength);
+            let response = [pageLength, availableHeight];
+            return response;
+        }
+        var heightResponse = adjustTableHeight();
+
         $('#{{ $id }}').DataTable({
             dom: '<"top"iBp<"dt_title">>t<"bottom"><"clear">',
             serverSide: true,
             processing: true,
-            scroller : true , 
-            scrollY: '76vh',
-            ajax: '{{ route($ajax) }}',
-            autoWidth : false ,
+            scroller: true,
+            scrollY: heightResponse[1] + "px",
+            pageLength: heightResponse[0],
+            ajax: {
+                url: '{{ route($ajax) }}',
+                data: function (d) {
+                    d.length = heightResponse[0];
+                },
+                error: function (xhr, error, thrown) {
+                    console.log("Failed to load table data  : ", xhr, error, thrown);
+                },
+                complete: function (xhr) {
+                    $(".spinner-wrapper").css("visibility", "hidden");
+                },
+            },
+            buttons: [
+                {
+                    extend: 'csv',
+                    text: 'csv',
+                    action: function () {
+                        alert('working');
+                    }
+                }
+            ],
+            autoWidth: false,
             initComplete: function () {
                 document.querySelector('.dt_title').textContent = '{{ $pagetitle }}';
                 var api = this.api();
