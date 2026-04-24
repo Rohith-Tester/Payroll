@@ -5,23 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
+use App\Models\OfferLetter;
 use App\Models\SalaryStructure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Yajra\DataTables\Facades\DataTables;
 
 class EmployeeController extends Controller
 {
-    public function index(): View
+    public function index(): view
+    {
+        return view('employees.index');
+    }
+
+    public function getData()
     {
         $employees = Employee::query()
-            ->with(['department', 'latestSalaryStructure'])
-            ->orderBy('full_name')
-            ->paginate(20);
+            ->with(['department', 'salary', 'designation', 'offerLetters'])->get();
+        $data = $employees->map(function ($employee) {
+            $letters = OfferLetter::query()
+                ->with(['employee.department', 'employee.designation', 'employee.salaryStructures'])
+                ->where('employee_id', $employee->id)->first()
+            ;
+            $offerLetterLink = $letters
+                ? '<a href="' . route('documents.offer-letters.preview', $letters->id) . '">Offer Letter</a>'
+                : 'No Offer Letter';
+            return [
+                $employee->employee_code,
+                $employee->full_name,
+                $employee->email,
+                $employee?->department?->name,
+                $employee?->designation?->title,
+                $employee?->salary?->ctc,
+                $employee?->salary?->variable,
+                $employee?->status,
+                '<a href="' . route('employees.edit', $employee->id) . '"><i class="fa fa-edit"></i></a>
+                '.$offerLetterLink
+            ];
+        });
 
-        return view('employees.index', compact('employees'));
+        return DataTables::of($data)
+            ->rawColumns([8])
+            ->make(true);
     }
 
     public function create(): View
@@ -54,15 +82,7 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee): View
     {
-        $salary = $employee->salaryStructures()->orderByDesc('effective_from')->first()
-            ?? new SalaryStructure([
-                'effective_from' => now()->startOfMonth()->toDateString(),
-                'basic' => 0,
-                'hra' => 0,
-                'gross' => 0,
-                'net' => 0,
-            ]);
-
+        $salary = $employee->salaryStructures()->first();
         return view('employees.form', [
             'employee' => $employee,
             'salary' => $salary,
@@ -70,6 +90,7 @@ class EmployeeController extends Controller
             'designations' => Designation::query()->orderBy('title')->get(),
             'managers' => Employee::query()->where('id', '!=', $employee->id)->orderBy('full_name')->get(),
             'mode' => 'edit',
+
         ]);
     }
 
@@ -79,12 +100,12 @@ class EmployeeController extends Controller
 
         DB::transaction(function () use ($data, $employee) {
             $employee->update($data['employee']);
-
-            $existing = $employee->salaryStructures()->orderByDesc('effective_from')->first();
-
-            if ($existing) {
+            $existing = $employee->salaryStructures()->first();
+            if ($existing)
+            {
                 $existing->update($data['salary']);
-            } else {
+            } else
+            {
                 SalaryStructure::query()->create(array_merge(
                     ['employee_id' => $employee->id],
                     $data['salary']
@@ -103,7 +124,8 @@ class EmployeeController extends Controller
     protected function validatedEmployeeAndSalary(Request $request, ?Employee $employee = null): array
     {
         $codeRule = Rule::unique('employee', 'employee_code');
-        if ($employee !== null) {
+        if ($employee !== null)
+        {
             $codeRule->ignore($employee->id);
         }
 
@@ -113,21 +135,22 @@ class EmployeeController extends Controller
             'dob' => ['nullable', 'date'],
             'gender' => ['nullable', 'in:M,F,O'],
             'phone' => ['required', 'integer'],
-            'email' => ['required', 'email', 'max:255' ,'unique:Employee,email'],
+            'email' => ['required', 'email', 'max:255'],
             'joining_date' => ['nullable', 'date'],
             'department_id' => ['nullable', 'exists:departments,id'],
-            'status' => ['integer', 'not_in:-1'],
+            'status' => ['string', 'not_in:null'],
             'designation_id' => ['nullable', 'exists:designations,id'],
             'probation_end_date' => ['nullable', 'date'],
             'reporting_manager_id' => ['nullable', 'exists:employee,id'],
         ];
 
         $validated = $request->validate(array_merge($employeeRules, [
-            'fixed' => ['numeric' , 'required'] ,
-            'variable' => ['numeric'  , 'required']
+            'fixed' => ['numeric', 'required'],
+            'variable' => ['numeric', 'required']
         ]));
 
-        if (! empty($validated['reporting_manager_id']) && (int) $validated['reporting_manager_id'] === (int) ($request->route('employee')?->id)) {
+        if (!empty($validated['reporting_manager_id']) && (int) $validated['reporting_manager_id'] === (int) ($request->route('employee')?->id))
+        {
             abort(422, 'Reporting manager cannot be the same employee.');
         }
 
@@ -147,7 +170,7 @@ class EmployeeController extends Controller
         ];
 
         $salary = [
-            'ctc' => $validated['fixed'] ,
+            'ctc' => $validated['fixed'],
             'variable' => $validated['variable']
         ];
 
@@ -155,6 +178,6 @@ class EmployeeController extends Controller
     }
 
 
-    
+
 
 }

@@ -57,9 +57,9 @@ class Employee extends Model
         return $this->hasMany(ExperienceLetter::class, 'employee_id');
     }
 
-    public function salaryStructures(): HasMany
+    public function salaryStructures(): HasOne
     {
-        return $this->hasMany(SalaryStructure::class, 'employee_id');
+        return $this->hasOne(SalaryStructure::class, 'employee_id');
     }
 
     /**
@@ -68,6 +68,11 @@ class Employee extends Model
     public function latestSalaryStructure(): HasOne
     {
         return $this->hasOne(SalaryStructure::class, 'employee_id');
+    }
+
+    public function salary(): HasOne
+    {
+        return $this->hasOne(Salary::class, 'employee_id');
     }
 
     public function reportingManager(): BelongsTo

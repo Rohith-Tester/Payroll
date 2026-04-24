@@ -42,6 +42,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('/employees/getdata', [EmployeeController::class, 'getData'])->name('employees.getdata');
     Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
     Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
     Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');

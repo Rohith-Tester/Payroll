@@ -33,24 +33,21 @@
                 </div>
                 <div>
                     <label for="email">Email <span class="doc-req">*</span></label>
-                    <input id="email" name="email" type="email" required
-                        value="{{ old('email', $employee->email) }}">
+                    <input id="email" name="email" type="email" required value="{{ old('email', $employee->email) }}">
                     @error('email')
                         <p class="doc-form-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
                     <label for="phone">Phone <span class="doc-req">*</span></label>
-                    <input id="phone" name="phone" type="number" required
-                        value="{{ old('phone', $employee->phone) }}">
+                    <input id="phone" name="phone" type="number" required value="{{ old('phone', $employee->phone) }}">
                     @error('phone')
                         <p class="doc-form-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
                     <label for="dob">Date of birth</label>
-                    <input id="dob" name="dob" type="date"
-                        value="{{ old('dob', $employee->dob?->format('Y-m-d')) }}">
+                    <input id="dob" name="dob" type="date" value="{{ old('dob', $employee->dob?->format('Y-m-d')) }}">
                     @error('dob')
                         <p class="doc-form-error">{{ $message }}</p>
                     @enderror
@@ -98,10 +95,10 @@
                 <div>
                     <label for="status">Status</label>
                     <select name="status" id="status">
-                        <option value="-1">—</option>
-                        <option value="1">Confirmed</option>
-                        <option value="2">probation</option>
-                        <option value="3">resigned</option>
+                        <option value="null">—</option>
+                        <option value="Confirmed" {{ old('status' , $employee->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
+                        <option value="Probation" {{ old('status' , $employee->status) == 'Probation' ? 'selected' : '' }}>Probation</option>
+                        <option value="Resigned" {{ old('status' , $employee->status) == 'Resigned' ? 'selected' : '' }}>Resigned</option>
                     </select>
                     @error('status')
                         <p class="doc-form-error">{{ $message }}</p>
@@ -146,7 +143,7 @@
                 <div>
                     <label for="fixed">Fixed<span class="doc-req">*</span></label>
                     <input id="fixed" name="fixed" type="number" step="0.01" min="0"
-                        value="{{ old('fixed', $salary->ctc) }}">
+                        value="{{ old('fixed', $salary?->ctc) }}">
                     @error('fixed')
                         <p class="doc-form-error">{{ $message }}</p>
                     @enderror
@@ -154,7 +151,7 @@
                 <div>
                     <label for="variable">Variable<span class="doc-req">*</span></label>
                     <input id="variable" name="variable" type="number" step="0.01" min="0" required
-                        value="{{ old('variable', $salary->basic) }}" >
+                        value="{{ old('variable', $salary?->variable) }}">
                     @error('variable')
                         <p class="doc-form-error">{{ $message }}</p>
                     @enderror
