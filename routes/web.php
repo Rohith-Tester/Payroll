@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/appointment-letters', [JoiningLetterController::class, 'index'])->name('joining-letters.index');
         Route::get('/appointment-letters/create', [JoiningLetterController::class, 'create'])->name('joining-letters.create');
-        Route::get('/appointment-letters/{id}/store', [JoiningLetterController::class, 'store'])->name('joining-letters.store');
+        Route::post('/appointment-letters/store', [JoiningLetterController::class, 'store'])->name('joining-letters.store');
         Route::get('/appointment-letters/{joiningLetter}/preview', [JoiningLetterController::class, 'preview'])->name('joining-letters.preview');
         Route::get('/appointment-letters/getdata', [JoiningLetterController::class, 'getdata'])->name('joining-letters.getdata');
         Route::get('/appointment-letters/{joiningLetter}/delete', [JoiningLetterController::class, 'delete'])->name('joining-letters.delete');

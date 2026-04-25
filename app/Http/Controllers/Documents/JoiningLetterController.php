@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\JoiningLetter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class JoiningLetterController extends Controller
@@ -65,12 +66,13 @@ class JoiningLetterController extends Controller
         return view('documents.joining-letters.create', compact('employees'));
     }
 
-    public function store($id): RedirectResponse
+    public function store(Request $request) : RedirectResponse
     {
-        $employee = Employee::find($id)->first();
+        $employee = Employee::find($request->input('employee_id'))->first();
+        $confirm_date = $request->input('confirmation_date') ; 
         $letter = JoiningLetter::query()->create([
             'employee_id' => $employee->id,
-            'joining_date' => $employee->joining_date,
+            'joining_date' => $confirm_date,
             'issued_date' => date('Y-m-d'),
             'salary' => $employee?->salary?->ctc,
             'file_path' => '',

@@ -37,7 +37,7 @@ class EmployeeController extends Controller
             
             $joining_letter = JoiningLetter::query()->where('employee_id' , $employee->id)->first();
             
-            $joining_letter_link = $joining_letter ? '<a href="' .route('documents.joining-letters.preview' , $joining_letter) . '">Confirmation Letter</a>' : '<a href="' . route('documents.joining-letters.store' , $employee->id) . '">Confirmation Letter</a>' ;
+            $joining_letter_link = $joining_letter ? '<a href="' .route('documents.joining-letters.preview' , $joining_letter) . '">Confirmation Letter</a>' : '<a href="#" onclick=newJoiningLetter("'.$employee->id.'")>Confirmation Letter</a>' ;
             
             
             return [

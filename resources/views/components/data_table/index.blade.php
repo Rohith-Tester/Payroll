@@ -30,7 +30,7 @@
         }
         var heightResponse = adjustTableHeight();
 
-        $('#{{ $id }}').DataTable({
+        var table = $('#{{ $id }}').DataTable({
             dom: '<"top"iBp<"dt_title">>t<"bottom"><"clear">',
             serverSide: true,
             processing: true,
@@ -49,15 +49,6 @@
                     $(".spinner-wrapper").css("visibility", "hidden");
                 },
             },
-            buttons: [
-                {
-                    extend: 'csv',
-                    text: 'csv',
-                    action: function () {
-                        alert('working');
-                    }
-                }
-            ],
             autoWidth: false,
             initComplete: function () {
                 document.querySelector('.dt_title').textContent = '{{ $pagetitle }}';
@@ -94,6 +85,7 @@
                         }
                     });
                 });
+                $(document).trigger('table-ready' , [table]);
             }
         });
     </script>
